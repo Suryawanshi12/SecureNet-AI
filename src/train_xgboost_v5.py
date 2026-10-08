@@ -1,0 +1,122 @@
+import pandas as pd
+import joblib
+from xgboost import XGBClassifier
+
+print("Loading training data...")
+
+df = pd.read_csv(
+    "data/processed/train_balanced.csv",
+    low_memory=False
+)
+
+print("Data loaded!")
+print("Rows:", len(df))
+print("Columns:", len(df.columns))
+
+
+# ==========================================
+# Separate Features and Target
+# ==========================================
+
+X = df.drop(columns=["Label"])
+y = df["Label"]
+
+print("\nFeatures:", X.shape)
+print("Target:", y.shape)
+
+print("\nClass distribution:")
+print(y.value_counts().sort_index())
+
+
+# ==========================================
+# Model 5 - Refined Class Weights
+# ==========================================
+
+class_weights = {
+    0: 1.0,    # BENIGN
+    1: 1.0,    # Bot
+    2: 1.0,    # DDoS
+    3: 1.0,    # DoS GoldenEye
+    4: 1.0,    # DoS Hulk
+    5: 1.0,    # FTP-Patator
+    6: 1.0,    # DoS slowloris
+    7: 1.0,    # DoS Slowhttptest
+    8: 1.0,    # Heartbleed
+    9: 1.0,    # Infiltration
+    10: 1.0,   # PortScan
+    11: 1.0,   # SSH-Patator
+
+    # Web attack classes
+    12: 1.2,   # Web Attack - Brute Force
+    13: 2.0,   # Web Attack - Sql Injection
+    14: 2.0    # Web Attack - XSS
+}
+
+
+# ==========================================
+# Create Sample Weights
+# ==========================================
+
+sample_weights = y.map(class_weights)
+
+print("\nModel 5 class weights:")
+
+for label, weight in class_weights.items():
+    print(f"Class {label}: {weight}")
+
+
+# ==========================================
+# Create XGBoost Model
+# ==========================================
+
+print("\nCreating XGBoost Model 5...")
+
+model = XGBClassifier(
+    objective="multi:softprob",
+    num_class=15,
+
+    n_estimators=100,
+    max_depth=6,
+    learning_rate=0.1,
+
+    subsample=0.8,
+    colsample_bytree=0.8,
+
+    tree_method="hist",
+    eval_metric="mlogloss",
+
+    random_state=42,
+    n_jobs=-1
+)
+
+
+# ==========================================
+# Train
+# ==========================================
+
+print("\nTraining Model 5...")
+
+model.fit(
+    X,
+    y,
+    sample_weight=sample_weights
+)
+
+print("\nTraining completed!")
+
+
+# ==========================================
+# Save Model 5
+# ==========================================
+
+model_path = "models/xgboost_ids_model_v5.pkl"
+
+joblib.dump(model, model_path)
+
+print("\nModel saved to:")
+print(model_path)
+
+
+print("\n======================================")
+print("XGBOOST MODEL 5 COMPLETED!")
+print("======================================")

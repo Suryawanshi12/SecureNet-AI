@@ -1,0 +1,36 @@
+Actual_Class,Predicted_Class,Count
+BENIGN,Bot,230
+BENIGN,PortScan,209
+Web Attack - Brute Force,Web Attack - XSS,68
+Web Attack - XSS,Web Attack - Brute Force,59
+BENIGN,DoS Hulk,50
+BENIGN,FTP-Patator,17
+DDoS,BENIGN,12
+PortScan,DoS Hulk,10
+BENIGN,DoS GoldenEye,9
+BENIGN,DDoS,8
+DoS GoldenEye,DoS Hulk,6
+DoS slowloris,BENIGN,6
+BENIGN,SSH-Patator,5
+PortScan,BENIGN,5
+DoS slowloris,FTP-Patator,4
+DoS Hulk,DoS GoldenEye,4
+FTP-Patator,DoS slowloris,3
+Bot,BENIGN,3
+BENIGN,Web Attack - Brute Force,3
+Web Attack - Sql Injection,DoS GoldenEye,2
+PortScan,Web Attack - XSS,2
+Web Attack - XSS,BENIGN,2
+Infiltration,BENIGN,2
+DDoS,DoS Hulk,2
+BENIGN,Web Attack - XSS,2
+DoS GoldenEye,BENIGN,2
+BENIGN,DoS Slowhttptest,1
+DoS Hulk,DoS slowloris,1
+DoS Hulk,BENIGN,1
+BENIGN,DoS slowloris,1
+DoS Hulk,PortScan,1
+FTP-Patator,BENIGN,1
+FTP-Patator,DoS GoldenEye,1
+DoS Slowhttptest,Web Attack - XSS,1
+Web Attack - Brute Force,BENIGN,1
